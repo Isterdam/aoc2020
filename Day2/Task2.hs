@@ -18,9 +18,10 @@ main = do
     hClose handle
 
 checkPassword :: [String] -> Bool
-checkPassword p = validPassword 0 (read (head p) :: Int) (read (p !! 1) :: Int) (head (p !! 2)) (last p)
+checkPassword p = validPassword (read (head p) - 1 :: Int) (read (p !! 1) - 1 :: Int) (head (p !! 2)) (last p)
 
--- checks if a passwords contains more than 'lo' of c', and less than 'high' of c'
-validPassword :: Int -> Int -> Int -> Char -> String -> Bool
-validPassword i lo hi _ [] = (lo <= i) && (i <= hi)
-validPassword i lo hi c' (c:s) = if c' == c then validPassword (i + 1) lo hi c' s else validPassword i lo hi c' s
+validPassword :: Int -> Int -> Char -> String -> Bool
+validPassword i i' c' s
+    | (s !! i) == c' && (s !! i') /= c' = True
+    | (s !! i) /= c' && (s !! i') == c' = True
+    | otherwise = False
