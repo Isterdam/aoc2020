@@ -1,3 +1,4 @@
+-- finds two integers in a given list that sum to 2020, and multiplies them
 module Main where
 
 import System.IO
@@ -14,5 +15,5 @@ main = do
 
 findPair :: [Integer] -> [Integer]
 findPair [] = []
-findPair (a:as) = if length (filterHelp a as) == 1 then a : filterHelp a as else findPair as
-  where filterHelp a = filter (\x -> x + a == 2020)
+findPair (a:as) = if length (filterHelp a as) == 2 then filterHelp a as else findPair as
+  where filterHelp a as = a : filter (\x -> x + a == 2020) as -- finds any possible pair
