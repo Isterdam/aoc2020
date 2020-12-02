@@ -8,12 +8,7 @@ main :: IO ()
 main = do
   handle <- openFile "input.txt" ReadMode
   contents <- hGetContents handle
-  let nums = map read numStrings :: [Integer]
+  let nums = map read numStrings :: [Int]
       numStrings = words contents
-  print $ product $ findPair nums
+  print $ head [x*y | x <- nums, y <- nums, x + y == 2020]
   hClose handle
-
-findPair :: [Integer] -> [Integer]
-findPair [] = []
-findPair (a:as) = if length (filterHelp a as) == 2 then filterHelp a as else findPair as
-  where filterHelp a as = a : filter (\x -> x + a == 2020) as -- finds any possible pair
