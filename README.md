@@ -8,7 +8,7 @@ Solutions to the [Advent of Code 2020](https://adventofcode.com/ "AoC"). Christm
 
 | Day | Status |   Languages  |
 |:---:|:------:|:------------:|
-|  1  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day1)  | Haskell/Java |
+|  1  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day1)  |    Haskell   |
 |  2  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day2)  |    Haskell   |
 |  3  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day3)  |    Haskell   |
 |  4  |        |              |
