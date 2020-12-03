@@ -4,6 +4,8 @@
 
 Solutions to the [Advent of Code 2020](https://adventofcode.com/ "AoC"). Christmassy picture comes from [here](https://www.needpix.com/photo/174828/christmas-bulb-string-lights-holidays-bulbs-decorate-free-vector-graphics-free-pictures). 
 
+<center>
+
 | Day | Status |   Languages  |
 |:---:|:------:|:------------:|
 |  1  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day1)  | Haskell/Java |
@@ -31,3 +33,5 @@ Solutions to the [Advent of Code 2020](https://adventofcode.com/ "AoC"). Christm
 |  23 |        |              |
 |  24 |        |              |
 |  25 |        |              |
+
+</center>
