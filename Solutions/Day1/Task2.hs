@@ -1,4 +1,4 @@
--- finds two integers in a given list that sum to 2020, and multiplies them
+-- finds three integers in a given list that sum to 2020, and multiplies them
 module Main where
 
 import System.IO
@@ -10,5 +10,5 @@ main = do
   contents <- hGetContents handle
   let nums = map read numStrings :: [Int]
       numStrings = words contents
-  print $ head [x*y | x <- nums, y <- nums, x+y==2020]
+  print $ head [x*y*z | x <- nums, y <- nums, z <- nums, x+y+z==2020]
   hClose handle
