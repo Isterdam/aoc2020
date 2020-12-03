@@ -8,7 +8,6 @@ main :: IO ()
 main = do
   handle <- openFile "input.txt" ReadMode
   contents <- hGetContents handle
-  let nums = map read numStrings :: [Int]
-      numStrings = words contents
+  let nums = map read $ words contents :: [Int]
   print $ head [x*y | x <- nums, y <- nums, x+y==2020]
   hClose handle
