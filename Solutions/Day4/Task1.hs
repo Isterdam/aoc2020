@@ -5,9 +5,6 @@ import Control.Monad
 import Data.List
 import Data.List.Split
 
-data Passport = BYR Int | IYR Int | EYR Int | HGT String 
-    | HCL String | ECL String | PID Int | CID Int
-
 main :: IO ()
 main = do
   handle <- openFile "input.txt" ReadMode
