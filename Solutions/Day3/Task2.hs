@@ -13,7 +13,7 @@ main = do
   hClose handle
 
 squares :: [String] -> Int -> (Int,Int) -> Int
-squares rows rowLength (x,y)  = length [c | c <- sqs, c == '#'] 
+squares rows rowLength (x,y) = length [c | c <- sqs, c == '#'] 
     where sqs = zipWith (\s i -> s !! (i `mod` rowLength)) rows' [x,x*2..]
           rows' = every y rows
 
