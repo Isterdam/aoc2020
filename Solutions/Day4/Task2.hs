@@ -31,7 +31,7 @@ validFields (x:xs) = let x' = drop 4 x
                      case take 3 x of "byr" -> n `elem` [1920..2002]
                                       "iyr" -> n `elem` [2010..2020]
                                       "eyr" -> n `elem` [2020..2030]
-                                      "hgt" -> validHGT x' (read digits :: Int)
+                                      "hgt" -> validHGT x' n
                                       "ecl" -> x' `elem` eyeColors
                                       "hcl" -> (head x' == '#') && all isHexDigit (tail x')
                                       "pid" -> (digits == x') && (length digits == 9)
