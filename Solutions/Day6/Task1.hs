@@ -9,8 +9,5 @@ main :: IO ()
 main = do
   handle <- openFile "input.txt" ReadMode
   contents <- hGetContents handle
-  let total = sum $ map length uniqueGroups
-      uniqueGroups = map nub groups
-      groups = (map concat . splitWhen (=="")) $ lines contents
-  print total
+  print $ sum . map ((length . nub) . concat) . splitWhen (=="") . lines $ contents
   hClose handle

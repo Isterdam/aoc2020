@@ -9,8 +9,5 @@ main :: IO ()
 main = do
   handle <- openFile "input.txt" ReadMode
   contents <- hGetContents handle
-  let total = sum $ map length commonGroups
-      commonGroups = map (foldr1 intersect) groups
-      groups = splitWhen (=="") $ lines contents
-  print total
+  print $ sum . map (length . foldr1 intersect) . splitWhen (=="") . lines $ contents
   hClose handle
