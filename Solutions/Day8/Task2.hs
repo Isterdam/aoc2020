@@ -11,15 +11,24 @@ type Instruction = (Int, String, Bool) -- bool denotes if instruction has been v
 main :: IO ()
 main = do
   input <- readFile "input.txt"
-  let acc = (sum . map fst') program
-      program = run 0 instructions
+  let acc = (sum . map fst') (fst program)
+      program = run 0 (terminable 0 instructions)
       instructions = zipWith (\z (x,y) -> (z,x,y)) [0..] (zip lines' (replicate (length lines') False))
       lines' = lines input
   print acc
 
-run :: Int -> [Instruction] -> [Instruction]
+terminable :: Int -> [Instruction] -> [Instruction]
+terminable index program = if isTerminable program' then program' else terminable (index + 1) program 
+    where program' = take index program ++ [repl (program !! index)] ++ drop (index + 1) program
+          isTerminable program = snd $ run 0 program
+          repl (a, b, c) = case take 3 b of "jmp" -> (a, "nop" ++ drop 3 b, c)
+                                            "nop" -> (a, "jmp" ++ drop 3 b, c)
+                                            _ -> (a, b, c)
+
+run :: Int -> [Instruction] -> ([Instruction], Bool) -- bool represents if program terminates
 run index program 
-  | trd' (program !! index) = visited program -- upon visiting an already visited instruction, return visited instructions
+  | index + 1 == length program = (visited program, True)
+  | trd' (program !! index) = (visited program, False) -- upon visiting an already visited instruction, return visited instructions
   | otherwise = run nextIndex program'
     where nextIndex = index + fst result
           program' = take index program ++ [(snd result, snd' instruction, True)] ++ drop (index + 1) program -- visited
