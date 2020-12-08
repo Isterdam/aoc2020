@@ -18,14 +18,14 @@ main = do
   print acc
 
 terminable :: Int -> [Instruction] -> [Instruction]
-terminable index program = if isTerminable program' then program' else terminable (index + 1) program 
+terminable index program = if isTerminable index program' then program' else terminable (index + 1) program 
     where program' = take index program ++ [repl (program !! index)] ++ drop (index + 1) program
-          isTerminable program = (not . null) (run 0 program)
+          isTerminable index program = if (snd' . repl) (program !! index) == "do not replace" then False else (not . null) (run 0 program)
           repl (a, b, c) = case take 3 b of "jmp" -> (a, "nop" ++ drop 3 b, c)
                                             "nop" -> (a, "jmp" ++ drop 3 b, c)
-                                            _ -> (a, b, c)
+                                            _ -> (a, "do not replace", c)
 
-run :: Int -> [Instruction] -> [Instruction] -- bool represents if program terminates
+run :: Int -> [Instruction] -> [Instruction] 
 run index program 
   | index + 1 == length program = visited program -- terminable
   | trd' (program !! index) = [] -- not terminable
