@@ -6,42 +6,37 @@ import Data.List
 import Data.List.Split
 import Data.Maybe
 
+type Instruction = (Int, String, Bool) -- bool denotes if instruction has been visited and int the accVal
+
 main :: IO ()
 main = do
-  handle <- openFile "input.txt" ReadMode
-  contents <- hGetContents handle
-  let visited = traverse' 0 g
-      g = zipWith (\x y -> (x, fst y, snd y)) [0..(length instructions)] g' 
-      g' = map (\i -> (i, False)) instructions
-      instructions = convertToIndices . lines $ contents
-  print $ sum $ acc visited (lines contents)
-  hClose handle
+  input <- readFile "input.txt"
+  let acc = (sum . map fst') program
+      program = run 0 instructions
+      instructions = zipWith (\z (x,y) -> (z,x,y)) [0..] (zip lines' (replicate (length lines') False))
+      lines' = lines input
+  print acc
 
-traverse' :: Int -> [(Int, Int, Bool)] -> [(Int, Int, Bool)]
-traverse' i ns
-    | trd' (ns !! i) = takeAll ns 
-    | not $ trd' (ns !! i) = traverse' (i + snd' (ns !! i)) flagged
-        where flagged = take i ns ++ [(fst' (ns !! i), snd' (ns !! i), True)] ++ drop (i + 1) ns
+run :: Int -> [Instruction] -> [Instruction]
+run index program 
+  | trd' (program !! index) = visited program
+  | otherwise = run nextIndex program'
+    where nextIndex = index + fst result
+          program' = take index program ++ [(snd result, snd' instruction, True)] ++ drop (index + 1) program
+          result = read' instruction
+          instruction = program !! index
 
-convertToIndices :: [String] -> [Int]
-convertToIndices [] = []
-convertToIndices (s:ss) = case take 3 s of "jmp" -> toInt $ drop 4 s
-                                           _ -> 1
-                                        : convertToIndices ss
+-- reads an instruction and returns (#jumps, accVal)
+read' :: Instruction -> (Int, Int) 
+read' instruction = case take 3 (snd' instruction) of "jmp" -> (toInt (drop 4 (snd' instruction)), 0)
+                                                      "acc" -> (1, toInt (drop 4 (snd' instruction)))
+                                                      _ -> (1, 0)
+                        where toInt ('+':ss') = read ss' :: Int 
+                              toInt ('-':ss') = -(read ss' :: Int)
 
-acc :: [(Int, Int, Bool)] -> [String] -> [Int] 
-acc [] _ = [0]
-acc (n:ns) ss = case take 3 (ss !! fst' n) of "acc" -> toInt $ drop 4 (ss !! fst' n)
-                                              _ -> 0
-                                           : acc ns ss
-
-takeAll :: [(Int, Int, Bool)] -> [(Int, Int, Bool)]
-takeAll [] = []
-takeAll (x:xs) = if trd' x then x : takeAll xs else takeAll xs
-
-toInt :: String -> Int
-toInt ('+':ss') = read ss' :: Int 
-toInt ('-':ss') = -(read ss' :: Int)
+visited :: [Instruction] -> [Instruction]
+visited [] = []
+visited (i:is) = if trd' i then i : visited is else visited is
 
 fst' (a, _, _) = a 
 snd' (_, b, _) = b
