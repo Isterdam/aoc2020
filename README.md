@@ -15,7 +15,7 @@ Solutions to the [Advent of Code 2020](https://adventofcode.com/ "AoC"). Christm
 |  5  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day5)  |    Haskell   |
 |  6  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day6)  |    Haskell   |
 |  7  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day7)  |    Haskell   |
-|  8  |        |              |
+|  8  |  [Done](https://github.com/Isterdam/aoc2020/tree/main/Solutions/Day8)  |    Haskell   |
 |  9  |        |              |
 |  10 |        |              |
 |  11 |        |              |
