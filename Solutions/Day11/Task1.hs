@@ -16,7 +16,7 @@ part1 = do
 
 -- finds number of occupied seats
 occupiedSeats :: Map Int Chair -> Int 
-occupiedSeats m = length $ Map.filter (\c -> fst c) m
+occupiedSeats m = length $ Map.filter fst m
 
 -- iterates until stable chair grid
 untilStable :: Map Int Chair -> Map Int Chair
@@ -25,14 +25,11 @@ untilStable m = if m == m' then m' else untilStable m'
 
 -- applies rules to all chairs
 occupyAll :: Map Int Chair -> Map Int Chair
-occupyAll m = Map.map (\c -> occupy c m) m
+occupyAll m = Map.map (`occupy` m) m
 
 -- occupies and empties a chair according to rules
 occupy :: Chair -> Map Int Chair -> Chair
-occupy (b, is) m = if not b then -- not occupied
-                       (if not (maximum bs) then True else False, is) -- rule 1
-                   else
-                       (if trus >= 4 then False else True, is) -- rule 2
+occupy (b, is) m = if not b then (not (maximum bs), is) else (trus < 4, is) -- applying rules
     where trus = length $ filter (==True) bs
           bs = [fst (fromMaybe (False, []) (Map.lookup i m)) | i <- is]
 
@@ -43,15 +40,15 @@ findAdjacent ((x,b):cs) row = (x, (b, adjacent x row (row * row))) : findAdjacen
 
 -- finds all adjacent chairs for a certain chair
 adjacent :: Int -> Int -> Int -> [Int]
-adjacent x row len = 
-    if x <= row || len - x > len - row then -- first or last row
+adjacent x row len
+    | x <= row || len - x > len - row = -- first or last row
         if x <= row then case x `mod` row of 0 -> [x-1, x+row, x+row-1]
                                              1 -> [x+1, x+row, x+row+1]
                                              _ -> [x-1, x+1, x+row, x+row-1, x+row+1] 
         else case x `mod` row of 0 -> [x-1, x-row, x-row-1]
                                  1 -> [x+1, x-row, x-row+1]
                                  _ -> [x-1, x+1, x-row, x-row-1, x-row+1]
-    else -- any other row
+    | otherwise = 
         case x `mod` row of 0 -> [x-1, x-row, x-row-1, x+row, x+row-1]
                             1 -> [x+1, x-row, x-row+1, x+row, x+row+1]
                             _ -> [x-1, x+1, x-row, x-row-1, x-row+1, x+row, x+row-1, x+row+1]
